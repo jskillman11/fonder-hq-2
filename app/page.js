@@ -41,7 +41,7 @@ export default async function Page({ searchParams }) {
   const clients = profile.role === "admin" ? await getAccessibleClients() : null;
   const clientId = profile.role === "admin" ? requestedClientId || clients?.[0]?.id : profile.client_id;
 
-  const { data, drafts, draftsList, programId } = await getProgramData(clientId);
+  const { data, drafts, draftsList, programId } = await getProgramData(clientId, profile.role === "admin");
 
   return (
     <FonderHQ

@@ -18,11 +18,14 @@ export default function EditableText({ table, recordId, field, value, label, mul
   const [saving, setSaving] = useState(false);
   const [localOverride, setLocalOverride] = useState(null);
 
-  const displayValue = localOverride ?? (draft ? draft.value : value);
-
+  // Drafts are unpublished by definition — never show one to a non-admin,
+  // even if one happens to be present in context. Belt and suspenders with
+  // the isAdmin-gated fetch in get-program-data.js.
   if (!isAdmin) {
-    return <>{displayValue}</>;
+    return <>{value}</>;
   }
+
+  const displayValue = localOverride ?? (draft ? draft.value : value);
 
   if (editing) {
     const Field = multiline ? "textarea" : "input";
